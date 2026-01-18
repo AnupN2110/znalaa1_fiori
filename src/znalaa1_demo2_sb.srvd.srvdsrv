@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service binding'
+define service ZNALAA1_DEMO2_SB {
+  expose znalaa1_demo2;
+}

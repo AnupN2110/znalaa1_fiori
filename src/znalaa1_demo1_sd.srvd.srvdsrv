@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service definition for znalaa1_demo1'
+define service Znalaa1_demo1_SD {
+  expose znalaa1_demo1;
+}
