@@ -1,0 +1,52 @@
+managed implementation in class zcl_aan_connection unique;
+strict ( 2 );
+
+define behavior for zaan_connection //alias <alias_name>
+persistent table /dmo/connection
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( readonly ) CarrierId, ConnectionId;
+  validation validate_airportfrom on save { create; update; field AirportFromId; }
+  validation validate_airportto on save { create; update; field AirportToId; }
+  association _flight { create; }
+  mapping for /dmo/connection
+    {
+      CarrierId     = carrier_id;
+      ConnectionId  = connection_id;
+      AirportFromId = airport_from_id;
+      AirportToId   = airport_to_id;
+      DepartureTime = departure_time;
+      ArrivalTime   = arrival_time;
+      Distance      = distance;
+      DistanceUnit  = distance_unit;
+    }
+}
+
+define behavior for zaan_flight //alias <alias_name>
+persistent table /dmo/flight
+lock dependent by _connection
+authorization dependent by _connection
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) CarrierId, ConnectionId, FlightDate;
+  association _connection;
+  mapping for /dmo/flight
+    {
+      CarrierId     = carrier_id;
+      ConnectionId  = connection_id;
+      FlightDate    = flight_date;
+      Price         = price;
+      CurrencyCode  = currency_code;
+      PlaneTypeId   = plane_type_id;
+      SeatsMax      = seats_max;
+      SeatsOccupied = seats_occupied;
+    }
+
+}

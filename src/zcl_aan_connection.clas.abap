@@ -1,0 +1,5 @@
+CLASS zcl_aan_connection DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zaan_connection.
+ENDCLASS.
+
+CLASS zcl_aan_connection IMPLEMENTATION.
+ENDCLASS.

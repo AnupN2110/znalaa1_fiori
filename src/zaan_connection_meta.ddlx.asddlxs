@@ -1,0 +1,41 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+    typeName: 'Connection',
+    typeNamePlural: 'Connection Details'
+}
+@Search.searchable: true
+annotate entity ZAAN_Connection_p with
+{
+  @UI.facet: [
+        {purpose: #STANDARD, position: 10, label: 'Root View', type:#IDENTIFICATION_REFERENCE},
+        {purpose: #STANDARD, position: 20, label: 'Line Item', type: #LINEITEM_REFERENCE, targetElement: '_flight'}
+             ]
+  @UI.lineItem: [{ position: 10 }]
+  @UI.identification: [{ position: 10 }]
+  CarrierId;
+  @UI.lineItem: [{ position: 20 }]
+  @UI.identification: [{ position: 20 }]
+  ConnectionId;
+  @UI.lineItem: [{ position: 30 }]
+  @UI.identification: [{ position: 30 }]
+  @Search.defaultSearchElement: true
+  @UI.selectionField: [{ position: 10 }]
+  @Consumption.valueHelpDefinition: [{ entity.name: '/DMO/I_Airport', entity.element: 'AirportID'}]
+  AirportFromId;
+  @UI.lineItem: [{ position: 40 }]
+  @UI.identification: [{ position: 40 }]
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity.name: '/DMO/I_Airport', entity.element: 'AirportID'}]
+  AirportToId;
+  @UI.lineItem: [{ position: 50 }]
+  @UI.identification: [{ position: 50 }]
+  DepartureTime;
+  @UI.lineItem: [{ position: 60 }]
+  @UI.identification: [{ position: 60 }]
+  ArrivalTime;
+  @UI.lineItem: [{ position: 70 }]
+  Distance;
+  @UI.lineItem: [{ position: 80 }]
+  DistanceUnit;
+
+}

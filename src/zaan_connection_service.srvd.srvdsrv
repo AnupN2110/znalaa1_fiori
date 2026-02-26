@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service definition'
+define service Zaan_connection_service {
+  expose ZAAN_Connection_p;
+  expose zaan_flight_p;
+}
