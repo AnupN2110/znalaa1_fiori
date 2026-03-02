@@ -3,13 +3,10 @@
 {
 "FROM":
 [
-"ZAN_SO_HEADER"
+"ZAN_CUST_MASTER"
 ],
 "ASSOCIATED":
-[
-"ZAN_CUST",
-"ZAN_I_SO_ITEM"
-],
+[],
 "BASE":
 [],
 "ANNO_REF":

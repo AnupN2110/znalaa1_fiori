@@ -4,20 +4,28 @@
 annotate entity zan_c_so_item with
 {
 
+  @UI.facet: [{ position: 10, purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE  }]
   @UI.lineItem: [{ position: 10 }]
+  @UI.identification: [{ position: 10 }]
   SoId;
   @UI.lineItem: [{ position: 20 }]
+  @UI.identification: [{ position: 20 }]
   Posnr;
   @UI.lineItem: [{ position: 30 }]
+  @UI.identification: [{ position: 30 }]
   @Search.defaultSearchElement: true
   Matnr;
   @UI.lineItem: [{ position: 40 }]
+  @UI.identification: [{ position: 40 }]
   Menge;
   @UI.lineItem: [{ position: 50 }]
+  @UI.identification: [{ position: 50 }]
   Uom;
   @UI.lineItem: [{ position: 60 }]
+  @UI.identification: [{ position: 60 }]
   Netpr;
   @UI.lineItem: [{ position: 70 }]
+  @UI.identification: [{ position: 70 }]
   Currency;
 
 

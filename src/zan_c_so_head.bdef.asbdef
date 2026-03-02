@@ -15,6 +15,5 @@ define behavior for zan_c_so_item //alias <alias_name>
 {
   use update;
   use delete;
-
   use association _head;
 }

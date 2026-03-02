@@ -17,12 +17,13 @@ CLASS zcl_an_create_so_head_item IMPLEMENTATION.
     DATA l_timestamp TYPE timestampl.
     DATA lt_so_head TYPE STANDARD TABLE OF zan_so_header.
     DATA lt_so_item TYPE STANDARD TABLE OF zan_so_item.
-*
+
     GET TIME STAMP FIELD l_timestamp.
 
-    lt_so_head = VALUE #( ( client = sy-mandt so_id = '0000001001' kunnr = '5001' vkorg = '9000' vtweg = '90' spart = '00' last_changed_at = l_timestamp )
-                          ( client = sy-mandt so_id = '0000001002' kunnr = '5002' vkorg = '9000' vtweg = '90' spart = '00' last_changed_at = l_timestamp )
-                          ( client = sy-mandt so_id = '0000001003' kunnr = '5003' vkorg = '9000' vtweg = '90' spart = '00' last_changed_at = l_timestamp )
+    lt_so_head = VALUE #( ( client = sy-mandt so_id = '0000001001' kunnr = '0000005001' vkorg = '9000' vtweg = '90' spart = '00' last_changed_at = l_timestamp )
+                          ( client = sy-mandt so_id = '0000001002' kunnr = '0000005002' vkorg = '9000' vtweg = '90' spart = '00' last_changed_at = l_timestamp )
+                          ( client = sy-mandt so_id = '0000001003' kunnr = '0000005003' vkorg = '9000' vtweg = '90' spart = '00' last_changed_at = l_timestamp )
+                          ( client = sy-mandt so_id = '0000001004' kunnr = '0000005003' vkorg = '1000' vtweg = '10' spart = '00' last_changed_at = l_timestamp )
                          ).
 
     MODIFY zan_so_header FROM TABLE @lt_so_head.
@@ -40,7 +41,14 @@ CLASS zcl_an_create_so_head_item IMPLEMENTATION.
 *    DELETE zan_so_header FROM TABLE @lt_so_head.
 *    DELETE zan_so_item FROM TABLE @lt_so_item.
 
-
+*    DATA lt_cust TYPE STANDARD TABLE OF zan_cust_master.
+*
+*    lt_cust = value #( ( client = sy-mandt kunnr = '0000005001' name1 = 'LINGEMANN' )
+*                       ( client = sy-mandt kunnr = '0000005002' name1 = 'SONEPAR' )
+*                       ( client = sy-mandt kunnr = '0000005003' name1 = 'CABRILL' )
+*                  ).
+*
+*    MODIFY zan_cust_master FROM TABLE @lt_cust.
 
   ENDMETHOD.
 

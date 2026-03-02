@@ -3,10 +3,12 @@
 {
 "FROM":
 [
+"ZAN_CUST",
 "ZAN_I_SO_HEAD"
 ],
 "ASSOCIATED":
 [
+"ZAN_CUST",
 "ZAN_C_SO_ITEM",
 "ZAN_I_SO_ITEM"
 ],

@@ -1,11 +1,12 @@
-managed implementation in class zbp_an_i_so_head unique;
+managed;
 strict ( 2 );
 
-define behavior for zan_I_so_head //alias <alias_name>
+define behavior for zan_I_so_head implementation in class zbp_an_i_so_head unique
 persistent table zan_so_header
 lock master
 authorization master ( instance )
 etag master LastChangedAt
+early numbering
 {
   create ( authorization : global );
   update;
@@ -28,6 +29,7 @@ define behavior for zan_i_so_item //alias <alias_name>
 persistent table zan_so_item
 lock dependent by _head
 authorization dependent by _head
+early numbering
 //etag master <field_name>
 {
   update;

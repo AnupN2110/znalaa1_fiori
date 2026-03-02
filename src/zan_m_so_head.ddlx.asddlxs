@@ -17,6 +17,7 @@ annotate entity zan_c_so_head with
   @UI.identification: [{ position: 20 }]
   @Search.defaultSearchElement: true
   @UI.selectionField: [{ position: 10 }]
+  @Consumption.valueHelpDefinition: [{ entity.name: 'ZAN_CUST', entity.element: 'Kunnr' }]
   Kunnr;
   @UI.lineItem: [{ position: 30 }]
   @UI.identification: [{ position: 30 }]
