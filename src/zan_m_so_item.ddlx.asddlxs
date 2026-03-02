@@ -1,0 +1,24 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: { typeName: 'SalesOrder',  typeNamePlural: 'Items'  }
+@Search.searchable: true
+annotate entity zan_c_so_item with
+{
+
+  @UI.lineItem: [{ position: 10 }]
+  SoId;
+  @UI.lineItem: [{ position: 20 }]
+  Posnr;
+  @UI.lineItem: [{ position: 30 }]
+  @Search.defaultSearchElement: true
+  Matnr;
+  @UI.lineItem: [{ position: 40 }]
+  Menge;
+  @UI.lineItem: [{ position: 50 }]
+  Uom;
+  @UI.lineItem: [{ position: 60 }]
+  Netpr;
+  @UI.lineItem: [{ position: 70 }]
+  Currency;
+
+
+}

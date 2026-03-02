@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service definition'
+define service ZUI_SO_SERVICE {
+  expose zan_c_so_head;
+  expose zan_c_so_item;
+}

@@ -1,0 +1,47 @@
+managed implementation in class zbp_an_i_so_head unique;
+strict ( 2 );
+
+define behavior for zan_I_so_head //alias <alias_name>
+persistent table zan_so_header
+lock master
+authorization master ( instance )
+etag master LastChangedAt
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( readonly ) SoId;
+  association _item { create; }
+  mapping for zan_so_header
+    {
+      SoId          = so_id;
+      Kunnr         = kunnr;
+      Vkorg         = vkorg;
+      Vtweg         = vtweg;
+      Spart         = spart;
+      LastChangedAt = last_changed_at;
+    }
+
+}
+
+define behavior for zan_i_so_item //alias <alias_name>
+persistent table zan_so_item
+lock dependent by _head
+authorization dependent by _head
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) SoId, Posnr;
+  association _head;
+  mapping for zan_so_item
+    {
+      SoId     = so_id;
+      Posnr    = posnr;
+      Matnr    = matnr;
+      Menge    = menge;
+      Uom      = uom;
+      Netpr    = netpr;
+      Currency = currency;
+    }
+}
