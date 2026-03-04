@@ -12,6 +12,9 @@ define root view entity zan_I_so_head
       vkorg           as Vkorg,
       vtweg           as Vtweg,
       spart           as Spart,
+      @Semantics.amount.currencyCode: 'Currency'
+      total           as TotalPrice,
+      currency        as Currency,
       last_changed_at as LastChangedAt,
       _item,
       _cust

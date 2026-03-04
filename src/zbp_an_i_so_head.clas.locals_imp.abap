@@ -6,6 +6,12 @@ CLASS lhc_zan_I_so_head DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
       IMPORTING REQUEST requested_authorizations FOR zan_I_so_head RESULT result.
+    METHODS validate_vkorg FOR VALIDATE ON SAVE
+      IMPORTING keys FOR zan_I_so_head~validate_vkorg.
+    METHODS CalTotPrice FOR MODIFY
+      IMPORTING keys FOR ACTION zan_I_so_head~CalTotPrice.
+    METHODS CalPrice FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR zan_I_so_head~CalPrice.
 
     METHODS earlynumbering_cba_Item FOR NUMBERING
       IMPORTING entities FOR CREATE zan_I_so_head\_Item.
@@ -51,8 +57,6 @@ CLASS lhc_zan_I_so_head IMPLEMENTATION.
       ENDLOOP.
     ENDIF.
 
-
-
   ENDMETHOD.
 
   METHOD earlynumbering_cba_Item.
@@ -61,7 +65,6 @@ CLASS lhc_zan_I_so_head IMPLEMENTATION.
     DATA l_posnr_new TYPE posnr.
     DATA lt_item TYPE TABLE FOR MAPPED EARLY zan_i_so_item.
     DATA ls_item LIKE LINE OF lt_item.
-
 
     READ ENTITY IN LOCAL MODE zan_I_so_head
     FIELDS ( SoId )
@@ -98,6 +101,75 @@ CLASS lhc_zan_I_so_head IMPLEMENTATION.
         ENDLOOP.
       ENDLOOP.
     ENDIF.
+
+  ENDMETHOD.
+
+  METHOD validate_vkorg.
+
+    READ ENTITY IN LOCAL MODE zan_I_so_head
+    FIELDS ( Vkorg ) WITH CORRESPONDING #( keys )
+    RESULT DATA(it_result).
+
+    READ TABLE it_result INTO DATA(ls_result) INDEX 1.
+    IF ls_result-Vkorg IS INITIAL.
+
+      APPEND VALUE #( %tky = ls_result-%tky ) TO failed-zan_i_so_head.
+      APPEND VALUE #( %tky = ls_result-%tky
+                      %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error
+                                                    text = 'Invalid SalesOrg' )  )
+                                                    TO reported-zan_i_so_head.
+    ELSE.
+
+      IF ls_result-Vkorg NE '1000' AND
+         ls_result-Vkorg NE '2000' AND
+         ls_result-Vkorg NE '3000'.
+
+        APPEND VALUE #( %tky = ls_result-%tky ) TO failed-zan_i_so_head.
+        APPEND VALUE #( %tky = ls_result-%tky
+                        %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error
+                                                      text = 'Invalid SalesOrg' )  )
+                                                      TO reported-zan_i_so_head.
+      ENDIF.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD CalTotPrice.
+    DATA l_price TYPE dmbtr.
+
+    READ ENTITIES OF zan_I_so_head IN LOCAL MODE
+    ENTITY zan_i_so_head
+    FIELDS ( TotalPrice Currency )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_head).
+
+    READ ENTITIES OF zan_I_so_head IN LOCAL MODE
+    ENTITY zan_I_so_head BY \_item
+    FIELDS ( Netpr Currency )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(lt_items).
+
+
+    LOOP AT lt_head INTO DATA(ls_head).
+      LOOP AT lt_items INTO DATA(ls_items) WHERE SoId = ls_head-SoId.
+        l_price = l_price + ls_items-Netpr.
+      ENDLOOP.
+      ls_head-TotalPrice = l_price.
+      ls_head-Currency = ls_items-Currency.
+      MODIFY lt_head FROM ls_head TRANSPORTING TotalPrice Currency.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zan_I_so_head IN LOCAL MODE
+    ENTITY zan_I_so_head
+    UPDATE FIELDS ( TotalPrice Currency )
+    WITH CORRESPONDING #( keys ).
+  ENDMETHOD.
+
+  METHOD CalPrice.
+
+    MODIFY ENTITIES OF zan_I_so_head IN LOCAL MODE
+    ENTITY zan_I_so_head
+    EXECUTE CalTotPrice
+    FROM CORRESPONDING #( keys ).
 
   ENDMETHOD.
 

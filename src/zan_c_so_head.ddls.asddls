@@ -10,10 +10,13 @@ define root view entity zan_c_so_head
       @ObjectModel.text.element: [ 'CustomerName' ]
       @Consumption.valueHelpDefinition: [{ entity.name: 'ZAN_CUST' , entity.element: 'Kunnr' }]
       Kunnr,
-      _cust.name1 as CustomerName,
+      _cust.Name1 as CustomerName,
       Vkorg,
       Vtweg,
       Spart,
+      @Semantics.amount.currencyCode: 'Currency'
+      TotalPrice,
+      Currency,
       LastChangedAt,
       /* Associations */
       _cust,
