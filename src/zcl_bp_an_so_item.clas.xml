@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_BP_SO_ITEM</CLSNAME>
+    <CLSNAME>ZCL_BP_AN_SO_ITEM</CLSNAME>
     <LANGU>E</LANGU>
     <DESCRIPT>Behavior Implementation for ZAN_I_SO_HEAD</DESCRIPT>
     <CATEGORY>06</CATEGORY>

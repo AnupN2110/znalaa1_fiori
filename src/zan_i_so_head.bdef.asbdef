@@ -11,14 +11,15 @@ early numbering
   create ( authorization : global );
   update;
   delete;
-  field ( readonly ) SoId, TotalPrice, Currency ;
+  field ( readonly ) SoId, TotalPrice, Currency;
   field ( mandatory : create ) Vtweg;
   field ( mandatory : update ) Vtweg;
   association _item { create; }
-  internal action CalTotPrice;
-  determination CalPrice on modify { create; field TotalPrice, Currency; }
   validation validate_vkorg on save { create; update; field Vkorg; }
-
+  //  side effects
+  //  { entity _item affects field TotalPrice; }
+  determine action CalTotPrice;
+  side effects { determine action CalTotPrice executed on field TotalPrice affects messages; }
   mapping for zan_so_header
     {
       SoId          = so_id;
@@ -33,7 +34,7 @@ early numbering
 }
 
 define behavior for zan_i_so_item //alias <alias_name>
-implementation in class zcl_bp_so_item unique
+implementation in class zcl_bp_an_so_item unique
 persistent table zan_so_item
 lock dependent by _head
 authorization dependent by _head
@@ -45,7 +46,8 @@ early numbering
   delete;
   field ( readonly ) SoId, Posnr;
   association _head;
-  determination CalPrice on modify { create; field Netpr, Currency; }
+  determination CalcTotalPrice on modify { create; update; delete; field Netpr; }
+
   mapping for zan_so_item
     {
       SoId     = so_id;

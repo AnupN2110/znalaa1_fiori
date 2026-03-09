@@ -6,12 +6,9 @@ CLASS lhc_zan_I_so_head DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
       IMPORTING REQUEST requested_authorizations FOR zan_I_so_head RESULT result.
+
     METHODS validate_vkorg FOR VALIDATE ON SAVE
       IMPORTING keys FOR zan_I_so_head~validate_vkorg.
-    METHODS CalTotPrice FOR MODIFY
-      IMPORTING keys FOR ACTION zan_I_so_head~CalTotPrice.
-    METHODS CalPrice FOR DETERMINE ON MODIFY
-      IMPORTING keys FOR zan_I_so_head~CalPrice.
 
     METHODS earlynumbering_cba_Item FOR NUMBERING
       IMPORTING entities FOR CREATE zan_I_so_head\_Item.
@@ -132,45 +129,4 @@ CLASS lhc_zan_I_so_head IMPLEMENTATION.
       ENDIF.
     ENDIF.
   ENDMETHOD.
-
-  METHOD CalTotPrice.
-    DATA l_price TYPE dmbtr.
-
-    READ ENTITIES OF zan_I_so_head IN LOCAL MODE
-    ENTITY zan_i_so_head
-    FIELDS ( TotalPrice Currency )
-    WITH CORRESPONDING #( keys )
-    RESULT DATA(lt_head).
-
-    READ ENTITIES OF zan_I_so_head IN LOCAL MODE
-    ENTITY zan_I_so_head BY \_item
-    FIELDS ( Netpr Currency )
-    WITH CORRESPONDING #( keys )
-    RESULT DATA(lt_items).
-
-
-    LOOP AT lt_head INTO DATA(ls_head).
-      LOOP AT lt_items INTO DATA(ls_items) WHERE SoId = ls_head-SoId.
-        l_price = l_price + ls_items-Netpr.
-      ENDLOOP.
-      ls_head-TotalPrice = l_price.
-      ls_head-Currency = ls_items-Currency.
-      MODIFY lt_head FROM ls_head TRANSPORTING TotalPrice Currency.
-    ENDLOOP.
-
-    MODIFY ENTITIES OF zan_I_so_head IN LOCAL MODE
-    ENTITY zan_I_so_head
-    UPDATE FIELDS ( TotalPrice Currency )
-    WITH CORRESPONDING #( keys ).
-  ENDMETHOD.
-
-  METHOD CalPrice.
-
-    MODIFY ENTITIES OF zan_I_so_head IN LOCAL MODE
-    ENTITY zan_I_so_head
-    EXECUTE CalTotPrice
-    FROM CORRESPONDING #( keys ).
-
-  ENDMETHOD.
-
 ENDCLASS.
